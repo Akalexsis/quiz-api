@@ -78,7 +78,19 @@ class _QuizScreenState extends State<QuizScreen> {
       if (answer == correct) _score++;
     });
 
-    Future.delayed(const Duration(milliseconds: 1500), _nextQuestion);
+    // display pop-up message if answer is correct
+    final isCorrect = answer == correct;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(isCorrect ? '✅ Correct!' : '❌ Wrong! Correct: $correct'),
+        backgroundColor: isCorrect ? Colors.green.shade700 : Colors.red.shade700,
+        duration: const Duration(milliseconds: 1200),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
+
   }
 
   void _nextQuestion() {
@@ -97,6 +109,19 @@ class _QuizScreenState extends State<QuizScreen> {
 
     setState(() {
       _currentIndex++;
+      _prepareQuestion();
+    });
+  }
+
+  // TO-DO - ADD BACK NAVIGATION
+  void _prevQuestion() {
+    if (!mounted) return;
+
+    // handle if alr on first question
+    if (_currentIndex == 0) return;
+
+    setState(() {
+      _currentIndex--;
       _prepareQuestion();
     });
   }
@@ -143,11 +168,13 @@ class _QuizScreenState extends State<QuizScreen> {
     }
 
     final question = _questions[_currentIndex];
+    final progress = (_currentIndex + 1) / _questions.length;
 
     // return questions if successful
     return Scaffold(
       appBar: AppBar(
-        title: Text('Question ${_currentIndex + 1} / ${_questions.length}'),
+        // replace with quiz name
+        title: Text('${question.difficulty} ${question.category} Quiz'),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16),
@@ -160,8 +187,16 @@ class _QuizScreenState extends State<QuizScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(question.question, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            // progress bar
+            LinearProgressIndicator(value: progress, minHeight: 6, color: Colors.teal.shade600),
+            SizedBox(height: 20),
+
+            Text(
+              "Question ${_currentIndex + 1} / ${_questions.length}: ${question.question}", 
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+            ),
             const SizedBox(height: 20),
+
             // use map method to display each answer choice
             ..._currentAnswers.map((option) => Padding(
               padding: const EdgeInsets.only(bottom: 12),
@@ -171,6 +206,25 @@ class _QuizScreenState extends State<QuizScreen> {
                 child: Text(option),
               ),
             )),
+            SizedBox(height:12),
+
+            // navigation buttons
+            Row(
+              children: [
+                ActionChip(
+                  avatar: Icon(Icons.arrow_back),
+                  label: Text('Back', style: const TextStyle(fontSize: 16, color: Colors.teal),),
+                  onPressed: _prevQuestion,
+                ),
+                SizedBox(width: 8),
+                ActionChip(
+                  avatar: Icon(Icons.arrow_forward),
+                  label: Text('Next', style: const TextStyle(fontSize: 16, color: Colors.teal),),
+                  onPressed: _nextQuestion,
+                ),
+
+              ]
+            )
           ],
         ),
       ),
