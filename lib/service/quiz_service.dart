@@ -9,7 +9,7 @@ class TriviaService {
   // use question object to convert api response to useable object
   static Future<List<Question>> fetchQuestions({
     required String apiKey,
-    int limit = 10,
+    int limit = 5,
     int offset = 0,
     String category = 'Programming',
     String difficulty = 'EASY',

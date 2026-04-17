@@ -86,12 +86,12 @@ class _QuizScreenState extends State<QuizScreen> {
 
     // navigate to results screen after user answers all questions
     if (_currentIndex + 1 >= _questions.length) {
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (_) => ResultScreen(score: _score, total: _questions.length),
-      //   ),
-      // );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => ResultScreen(score: _score, total: _questions.length),
+        ),
+      );
       return;
     }
 
