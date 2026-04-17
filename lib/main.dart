@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-// import 'app_config.dart';
+import 'api_config.dart';
 import 'screens/quiz.dart';
 
 void main() {
-  // AppConfig.validate();
+  AppConfig.validate();
   runApp(const QuizApp());
 }
 
