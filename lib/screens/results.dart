@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
+import 'quiz.dart';
 
+class ResultScreen extends StatelessWidget {
+  final int score;
+  final int total;
 
-class ResultsScreen extends StatefulWidget {
-  const ResultsScreen({super.key});
-
-  @override
-  State<ResultsScreen> createState() => _ResultsScreenState();
-}
-
-class _ResultsScreenState extends State<ResultsScreen> {
+  const ResultScreen({super.key, required this.score, required this.total});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.teal,
-        title: Text("Results", style: TextStyle( fontSize: 24, color: Colors.white )),
-      ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [ 
-            Text( "Results Screen" ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Quiz Complete!', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 20),
+              Text('$score / $total', style: const TextStyle(fontSize: 36)),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const QuizScreen()),
+                ),
+                child: const Text('Play Again'),
+              ),
+            ],
+          ),
         ),
       ),
     );
