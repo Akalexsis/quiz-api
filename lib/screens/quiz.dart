@@ -38,7 +38,6 @@ class _QuizScreenState extends State<QuizScreen> {
     try {
       final questions = await TriviaService.fetchQuestions(
         apiKey: AppConfig.quizApiKey,
-        limit: 10,
         // TO-DO - UPDATE TO GET DIFFERENT QUESTIONS
       );
 
