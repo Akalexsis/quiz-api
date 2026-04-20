@@ -5,7 +5,8 @@ import '../service/quiz_service.dart';
 import 'results.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key});
+  final String? quiz_category;
+  const QuizScreen({super.key, this.quiz_category = 'Programming'});
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -21,15 +22,17 @@ class _QuizScreenState extends State<QuizScreen> {
   bool _answered = false;
   String? _selectedAnswer;
   String? _errorMessage;
+  late String? quiz_category;
 
   @override
   void initState() {
     super.initState();
+    quiz_category = widget.quiz_category;
     _loadQuestions(); // fetch questions when app initializes
   }
 
   // make get request
-  Future<void> _loadQuestions() async {
+  Future<void> _loadQuestions( ) async {
     setState(() {
       _loading = true;
       _errorMessage = null;
@@ -38,6 +41,7 @@ class _QuizScreenState extends State<QuizScreen> {
     try {
       final questions = await TriviaService.fetchQuestions(
         apiKey: AppConfig.quizApiKey,
+        category: quiz_category
         // TO-DO - UPDATE TO GET DIFFERENT QUESTIONS
       );
 
@@ -112,7 +116,6 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
-  // TO-DO - ADD BACK NAVIGATION
   void _prevQuestion() {
     if (!mounted) return;
 
@@ -158,7 +161,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 const SizedBox(height: 8),
                 Text(_errorMessage!, textAlign: TextAlign.center),
                 const SizedBox(height: 20),
-                ElevatedButton(onPressed: _loadQuestions, child: const Text('Retry')),
+                ElevatedButton(onPressed: () { _loadQuestions(); }, child: const Text('Retry')),
               ],
             ),
           ),
