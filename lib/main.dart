@@ -66,17 +66,7 @@ class MyApp extends StatelessWidget {
                 )
               ]
             ),
-            SizedBox(height: 16),
-
-            // QUIZ DIFFICULTY
-            Text('Difficulty Level: ', style: TextStyle( fontSize: 18 ), textAlign: TextAlign.start),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                
-              ]
-            ),
-            SizedBox(height: 16),
+            SizedBox(height: 20),
 
             // QUIZ CATEGORY
             Text('Category: ', style: TextStyle( fontSize: 18 ), textAlign: TextAlign.start),

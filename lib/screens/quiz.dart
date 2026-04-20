@@ -41,8 +41,7 @@ class _QuizScreenState extends State<QuizScreen> {
     try {
       final questions = await TriviaService.fetchQuestions(
         apiKey: AppConfig.quizApiKey,
-        category: quiz_category
-        // TO-DO - UPDATE TO GET DIFFERENT QUESTIONS
+        category: quiz_category,
       );
 
       // save questions if fetch successful
